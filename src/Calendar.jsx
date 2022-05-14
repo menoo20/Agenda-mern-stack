@@ -9,6 +9,7 @@ import enUS from 'date-fns/locale/en-US'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "react-datepicker/dist/react-datepicker.css";
 import Popping from './Popping'
+
 // import 'react-big-calendar/lib/sass/styles';
 
 const locales = {
@@ -66,43 +67,33 @@ const myEventsList = [
         end: new Date(2022,5,0),
         describe: "I must play well this time"
     },
-    {
-        title: "go to a meeting",
-        start: new Date(2022,5,0),
-        end: new Date(2022,5,0),
-        describe: "I must play well this time"
-    }
     
 ]
 
-const handledEvent = (e)=>{
-    console.log(e)
-     
-}
 
-const MyCalendar = props => (
-<>
-  {/* <DatePick/> */}
-  <div>
-    
-    <Calendar
-      localizer={localizer}
-      events={myEventsList}
-      startAccessor="start"
-      endAccessor="end"
-      style={{ height: 500 , margin: 50 }}
-      onSelectEvent={handledEvent}
-      views= {{
-          month: true,
-          day: true,
-          agenda: true,
-      }}
-      messages={{ year: 'year' }}
-    />
-    
-  </div>
-</>
-)
+
+const MyCalendar = props => {
+    const [open, setOpen] = useState(false);
+
+    const handledEvent = (e)=>{
+        // console.log(e)
+         setOpen(!open)
+    }
+    return (
+    <div>
+        <Popping open={open} handleClick={handledEvent}/>
+        <Calendar
+            localizer={localizer}
+            events={myEventsList}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 500 , margin: 50 }}
+            onSelectEvent={handledEvent}
+        />
+    </div>
+        
+    )
+}
 
 // const DatePick = ()=>{
 //     const [startDate, setStartDate] = useState(new Date());

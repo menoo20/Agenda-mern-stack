@@ -1,41 +1,23 @@
 .modal {
-    font-size: 1rem;
-    background-color: purple;
-    border: 3px solid black;
-    border-radius: 20px;
-    width: 25rem;
-    margin: 0 auto;
-    overflow: hidden;
-    color: white;
-    
-  }
-  .modal > .header {
-    width: 100%;
-    padding: 14px 5px ;
-    border-bottom: 1px solid gray;
-    font-size: 18px;
-    text-align: center;
-  }
-  .modal > .content {
-    width: 90%;
-    padding: 10px 10px;
-  }
-  .modal > .actions {
-    width: 50%;
-    padding: 10px 5px;
-    margin: auto;
-    text-align: center;
-  }
-  .modal > .close {
-    cursor: pointer;
-    position: absolute;
-    display: block;
-    padding: 2px 5px;
-    line-height: 20px;
-    right: -10px;
-    top: -10px;
-    font-size: 24px;
-    background: #ffffff;
-    border-radius: 18px;
-    border: 1px solid #cfcece;
+   
+    &.show{
+
+        position: absolute;
+        display: block;
+        top: 35%;
+        left: 0;
+        right: 0;
+        width: 50%;
+        height: fit-content;
+        background: rebeccapurple;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+        padding: 20px;
+        
+   
+    }
+
   }
