@@ -9,7 +9,7 @@ import enUS from 'date-fns/locale/en-US'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "react-datepicker/dist/react-datepicker.css";
 import Popping from './Popping'
-
+import myEventsList from "./api/Events"
 // import 'react-big-calendar/lib/sass/styles';
 
 const locales = {
@@ -24,51 +24,7 @@ const localizer = dateFnsLocalizer({
   locales,
 })
 
-const myEventsList = [
-    {
-        title: "go to gym",
-        start: new Date(2022,4,14,13,23),
-        end: new Date(2022,4,14,14,23),
-        describe: "I must play well this time"
-    },
-    {
-        title: "go to a meeting",
-        start: new Date(2022,5,0),
-        end: new Date(2022,5,0),
-        describe: "I must play well this time"
-    },
-    {
-        title: "go to a meeting",
-        start: new Date(2022,5,0),
-        end: new Date(2022,5,0),
-        describe: "I must play well this time"
-    },
-    {
-        title: "go to a meeting",
-        start: new Date(2022,5,0),
-        end: new Date(2022,5,0),
-        describe: "I must play well this time"
-    },
-    {
-        title: "go to a meeting",
-        start: new Date(2022,5,0),
-        end: new Date(2022,5,0),
-        describe: "I must play well this time"
-    },
-    {
-        title: "go to a meeting",
-        start: new Date(2022,5,0),
-        end: new Date(2022,5,0),
-        describe: "I must play well this time"
-    },
-    {
-        title: "go to a meeting",
-        start: new Date(2022,5,0),
-        end: new Date(2022,5,0),
-        describe: "I must play well this time"
-    },
-    
-]
+
 
 
 
@@ -87,7 +43,7 @@ const MyCalendar = props => {
             events={myEventsList}
             startAccessor="start"
             endAccessor="end"
-            style={{ height: 500 , margin: 50 }}
+            style={{ height: 500 , margin: 50, fontFamily: 'Patrick Hand' }}
             onSelectEvent={handledEvent}
         />
     </div>
@@ -95,13 +51,6 @@ const MyCalendar = props => {
     )
 }
 
-// const DatePick = ()=>{
-//     const [startDate, setStartDate] = useState(new Date());
-
-//     return(
-//         <DatePicker selected={startDate} onChange={(date:Date) => setStartDate(date)} />
-//     )
-// }
 
 
 export default MyCalendar
