@@ -2,19 +2,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose")
 const dotenv = require("dotenv");
-const userRoute = require("./routes/user");
-const authRoute = require("./routes/auth");
-const productRoute = require("./routes/product")
-const cartRoute = require("./routes/cart")
-const orderRoute = require("./routes/order")
-const categoriesRoute = require("./routes/category")
-const reviewsRoute = require("./routes/review")
-const cookieParser = require("cookie-parser");
+const eventRoute = require("./routes/eventRoute")
 
 
 dotenv.config();
 const cors = require("cors");
-const Category = require("./models/Category");
 
 
  
@@ -26,14 +18,7 @@ mongoose.connect(process.env.MONGO_URL)
 
 app.use(express.json({limit: '50mb'}));
 app.use(cors()) 
-app.use("/api/users", userRoute)
-app.use("/api/auth", authRoute)
-app.use("/api/products", productRoute)
-app.use("/api/cart", cartRoute)
-app.use("/api/order", orderRoute)
-app.use("/api/category", categoriesRoute)
-app.use("/api/reviews", reviewsRoute)
-app.use(cookieParser())
+app.use("/api/events", eventRoute)
 
 
 
