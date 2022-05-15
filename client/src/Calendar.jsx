@@ -5,12 +5,11 @@ import parse from 'date-fns/parse'
 import startOfWeek from 'date-fns/startOfWeek'
 import getDay from 'date-fns/getDay'
 import enUS from 'date-fns/locale/en-US'
-// import DatePicker from "react-datepicker";
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import "react-datepicker/dist/react-datepicker.css";
 import Popping from './Popping'
 import myEventsList from "./api/Events"
-// import 'react-big-calendar/lib/sass/styles';
+import showEventApi from "./Redux/actions"
 
 const locales = {
   'en-US': enUS,
@@ -32,7 +31,7 @@ const MyCalendar = props => {
     const [open, setOpen] = useState(false);
 
     const handledEvent = (e)=>{
-        // console.log(e)
+        console.log(e)
          setOpen(!open)
     }
     return (
@@ -40,7 +39,7 @@ const MyCalendar = props => {
         <Popping open={open} handleClick={handledEvent}/>
         <Calendar
             localizer={localizer}
-            events={myEventsList}
+            events={props.events}
             startAccessor="start"
             endAccessor="end"
             style={{ height: 500 , margin: 50, fontFamily: 'Patrick Hand' }}
