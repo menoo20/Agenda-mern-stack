@@ -1,6 +1,6 @@
 
 import { event } from "../Axios/event"
-
+import * as moment from "moment"
 
 export const showEvent = (event)=>{
     return{
@@ -23,12 +23,14 @@ export const ShowEventApi = id => async dispatch => {
     const result = await event.get(`/${id}/show`);
 
     try{
-        const {title, _id, start, end} = await result.data;
+        const {title, _id, start, end, describe} = await result.data;
         const convertedEvent = {
             title,
+            describe,
             id: _id,
-            start: new Date(start).toLocaleDateString(),
-            end: new Date(end).toLocaleDateString()
+            // start: new Date(start).toLocaleString(),
+            start: moment(start).format("ddd MM MMM YY LT"),
+            end: moment(end).format("ddd MM MMM YY LT")
         }
         console.log("convertedEvent is:" , convertedEvent)
         await dispatch(showEvent(convertedEvent))
@@ -48,8 +50,8 @@ export const ShowEventsApi = () => async dispatch => {
         const convertedDates = await result.data.map(event=>{
             return{
               title: event.title,
-              start: new Date(event.start).toLocaleDateString() ,
-              end: new Date(event.end).toLocaleDateString() ,
+              start: new Date(event.start) ,
+              end: new Date(event.end) ,
               id: event._id,
               describe: event.describe
             }
@@ -61,3 +63,48 @@ export const ShowEventsApi = () => async dispatch => {
     }
 }
 
+
+const deleteEvent = (id)=>{
+   return {
+       type: "DELETE_EVENT",
+   }
+}
+
+export const deleteEventApi = (id) =>  async dispatch=> {
+    const result = await event.delete("/delete", {id})
+
+    try {
+        const deleted = await result.data;
+        await dispatch(deleteEvent(deleted))
+    }catch(err){
+        const message = await result.data.message;
+        console.log(message)
+        return message
+    }
+}
+
+
+
+const addEvent = (newEvent)=>{
+    return{
+      type: "ADD_EVENT",
+      payload: newEvent
+    }
+}
+
+
+export const addEventApi = (values) => async dispatch =>{
+    const result = await event.post("http://localhost:8080/api/events", {
+         title: values.title,
+         start: values.start,
+         end: values.end,
+         describe: values.describe
+       })
+       try{
+         await dispatch(addEvent(result.data))
+
+        }catch(err){
+         console.log(err.data);
+         
+       }
+}

@@ -7,7 +7,7 @@ import getDay from 'date-fns/getDay'
 import enUS from 'date-fns/locale/en-US'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Popping from './Popping';
-import {ShowEventApi} from "./Redux/actions"
+import {ShowEventApi} from "../Redux/actions"
 import { connect } from 'react-redux'
 
 const locales = {
@@ -29,9 +29,11 @@ const localizer = dateFnsLocalizer({
 const MyCalendar = ({events, ShowEventApi}) => {
     const [open, setOpen] = useState(false);
 
-    const handledEvent = (e, event)=>{
+    const handledEvent = (event)=>{
          setOpen(!open)
-         ShowEventApi( event.id);
+         if(event.id) {
+          ShowEventApi( event.id);
+         }
          return;
     }
     return (
