@@ -57,19 +57,19 @@ router.post("/", async(req, res)=>{
 
 
 
-// router.put("/:id", async (req, res)=>{
-//   Product.findByIdAndUpdate(req.params.id,
-//         {
-//         $set: req.body,
-//     }
-//     , {new: true}).then((docs)=>{
-//         if(docs){
-//             res.status(200).json(docs)
-//         }else{
-//             res.status(500).json("something went wrong")
-//         }
-//     })
-// })
+router.put("/:id", async (req, res)=>{
+  Event.findByIdAndUpdate(req.params.id,
+        {
+        $set: req.body,
+    }
+    , {new: true}).then((docs)=>{
+        if(docs){
+            res.status(200).json(docs)
+        }else{
+            res.status(500).json("something went wrong")
+        }
+    })
+})
 
 // router.delete("/:id", async(req, res)=>{
 //     const id = req.params.id;

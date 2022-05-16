@@ -2,6 +2,8 @@ import { Modal, Button } from "react-bootstrap";
 import React, { useState } from "react";
 import "../style/model.scss"
 import { connect } from "react-redux";
+import {Link} from "react-router-dom"
+
 
 const Popping = ({open, handleClick, event})=> {
    
@@ -28,7 +30,7 @@ const Popping = ({open, handleClick, event})=> {
               <span className="small text-muted">to: {end}</span>
             </p>
             <Button variant="warning" onClick={handleClick}>Close</Button>
-            <Button variant="success" onClick={handleUpdate}>Update</Button>
+            <Link to={`/event/${id}/update`}><Button variant="success" onClick={handleUpdate}>Update</Button></Link>
             <Button variant="danger" onClick={handleDelete}>Delete</Button>
         </Modal.Footer>
       </Modal>

@@ -3,9 +3,10 @@ import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { addEventApi } from "../Redux/actions";
+import { ShowEventsApi, updateEventApi } from "../Redux/actions";
 import { connect } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
+import {useNavigate} from "react-router-dom"
 
 
 //schema to validate event inputs 
@@ -16,15 +17,24 @@ const schema = yup.object({
 
 
 
-const AddEvents = ({addEventApi}) => {
-
+const UpdateEvent = ({updateEventApi, event, ShowEventsApi}) => {
+    const navigate = useNavigate();
     //using form-hook to register event data
+    console.log(event);
     const { register, handleSubmit, formState: {errors}, control } = useForm({
-      resolver: yupResolver(schema)
+      resolver: yupResolver(schema),
+      defaultValues: {
+        title: event.title,
+        start: new Date(event.start) ,
+        end: new Date(event.end),
+        describe: event.describe
+      }
     });
    
      const onSubmit = async(values)=>{
-       addEventApi(values)
+      updateEventApi(values, event.id);
+      ShowEventsApi();
+      navigate("/")
     }
 
 
@@ -33,7 +43,7 @@ const AddEvents = ({addEventApi}) => {
     <form onSubmit={handleSubmit(onSubmit)} className=" align-content-center m-5">
     <div className="mb-4">
       <label htmlFor="title" className="form-label">Event Title</label>
-      <input {...register("title")}  type="text" placeholder="title" className="form-control" id="title" aria-describedby="title" />
+      <input {...register("title")}   type="text" placeholder="title" className="form-control" id="title" aria-describedby="title" />
       <p className={`error text-warning position-absolute ${errors.title?"active":""}`}>{errors.title?<i className="bi bi-info-circle me-2"></i>:""}{errors.title?.message}</p>
     </div>
     <div className="mb-4" style={{zIndex: "100"}}>
@@ -43,11 +53,13 @@ const AddEvents = ({addEventApi}) => {
       <Controller
       control={control}
       name="start"
+
       render={({ field }) => (
         <DatePicker
           placeholderText="Select date"
           onChange={(date) => field.onChange(date)}
           selected={field.value}
+          // value={event.start}
           showTimeSelect
           timeFormat="HH:mm"
           dateFormat="MMMM d, yyyy h:mm aa"
@@ -70,6 +82,7 @@ const AddEvents = ({addEventApi}) => {
         placeholderText="Select end date"
         onChange={(date) => field.onChange(date)}
         selected={field.value}
+        // value={event.end}
         timeFormat="HH:mm"
         dateFormat="MMMM d, yyyy h:mm aa"
         showTimeSelect
@@ -84,9 +97,9 @@ const AddEvents = ({addEventApi}) => {
       <label htmlFor="describe" className="form-label">
         Event Description <span className="text-danger small">(optional)</span>
       </label>
-      <input {...register("describe")}  type="text" placeholder="describe your event" className="form-control" id="describe" aria-describedby="describe" />
+      <input {...register("describe")}   type="text" placeholder="describe your event" className="form-control" id="describe" aria-describedby="describe" />
     </div>
-    <button type="submit" className="btn btn-success">Create</button>
+    <button type="submit" className="btn btn-warning">Update</button>
   </form>
   )
 }
@@ -94,9 +107,9 @@ const AddEvents = ({addEventApi}) => {
 
 function mapStateToProps({event}){
   return{
-    // event
+    event
   }
 }
 
 
-export default connect(mapStateToProps , {addEventApi})(AddEvents)
+export default connect(mapStateToProps , {updateEventApi, ShowEventsApi})(UpdateEvent)

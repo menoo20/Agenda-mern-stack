@@ -28,9 +28,8 @@ export const ShowEventApi = id => async dispatch => {
             title,
             describe,
             id: _id,
-            // start: new Date(start).toLocaleString(),
-            start: moment(start).format("ddd MM MMM YY LT"),
-            end: moment(end).format("ddd MM MMM YY LT")
+            start: moment(start).format("ddd DD MMM YY LT"),
+            end: moment(end).format("ddd DD MMM YY LT")
         }
         console.log("convertedEvent is:" , convertedEvent)
         await dispatch(showEvent(convertedEvent))
@@ -94,7 +93,7 @@ const addEvent = (newEvent)=>{
 
 
 export const addEventApi = (values) => async dispatch =>{
-    const result = await event.post("http://localhost:8080/api/events", {
+    const result = await event.post("/", {
          title: values.title,
          start: values.start,
          end: values.end,
@@ -102,6 +101,32 @@ export const addEventApi = (values) => async dispatch =>{
        })
        try{
          await dispatch(addEvent(result.data))
+
+        }catch(err){
+         console.log(err.data);
+         
+       }
+}
+
+
+const updateEvent = (updatedEvent)=>{
+    return{
+      type: "UPDATE_EVENT",
+      payload: updatedEvent
+    }
+}
+
+
+export const updateEventApi = (values, id) => async dispatch =>{
+    const result = await event.put(`/${id}`, {
+         title: values.title,
+         start: values.start,
+         end: values.end,
+         describe: values.describe
+       })
+       try{
+           console.log(result.data)
+         await dispatch(updateEvent(result.data))
 
         }catch(err){
          console.log(err.data);
