@@ -17,6 +17,21 @@ router.get("/", async(req, res)=>{
     }
 });
 
+router.get("/:id/show", async(req, res)=>{
+    console.log(req.params.id)
+    const id =   req.params.id
+    const event = await Event.findById(id);
+ 
+    try{
+       console.log(event)
+       res.status(200).json(event)
+
+      
+    }catch(err){
+        res.json("couldn't fetch event")
+    }
+});
+
 
 
 router.post("/", async(req, res)=>{

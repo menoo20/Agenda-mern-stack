@@ -1,39 +1,30 @@
 import MyCalendar from "./Calendar";
 import "./style/global.scss"
-import axios from "axios"
 import { useEffect, useState } from "react";
 import AddEvents from "./AddEvents";
+import { connect } from "react-redux";
+import {ShowEventsApi} from "./Redux/actions"
 
 
-
-function App() {
-  const [events, getEvents] = useState([]);
+function App({ShowEventsApi}) {
  
 
   useEffect(()=>{
-    axios.get("http://localhost:8080/api/events")
-    .then(res =>{
-      const convertedDates = res.data.map(event=>{
-        return{
-          title: event.title,
-          start: new Date(event.start) ,
-          end: new Date(event.end) ,
-          id: event._id,
-          describe: event.describe
-        }
-      })
-      return convertedDates
-    }).then(dates=>{
-      getEvents(dates);
-    })
+    ShowEventsApi()
   },[])
   
   return (
     <>
       <AddEvents/>
-      <MyCalendar events={events}/>
+      <MyCalendar/>
     </>
   );
 }
 
-export default App;
+function mapStateToProps({event}){
+  return{
+    event
+  }
+}
+
+export default connect(mapStateToProps, {ShowEventsApi})(App)

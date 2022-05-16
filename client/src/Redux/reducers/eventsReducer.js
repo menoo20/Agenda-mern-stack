@@ -2,19 +2,13 @@
 
 
 
-const initialValue = {
-    id: "",
-    start: "",
-    end: "",
-    describe: ""
-}
+const initialValue = []
 
 
-const EventReducer = (state=initialValue, action)=>{
+const EventsReducer = (state=initialValue, action)=>{
 
     switch (action.type) {
-    case "SHOW_EVENT":
-
+    case "SHOW_EVENTS":
     return action.payload
    
     default:
@@ -22,4 +16,4 @@ const EventReducer = (state=initialValue, action)=>{
 }
 }
 
-export default EventReducer
+export default EventsReducer

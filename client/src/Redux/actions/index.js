@@ -1,8 +1,9 @@
 
-import { ShowEventApi } from "./eventsActions"
+import { ShowEventApi, ShowEventsApi } from "./eventsActions"
 
 
 
 export  {
-    ShowEventApi
+    ShowEventApi,
+    ShowEventsApi
 }
