@@ -16,6 +16,12 @@ const EventReducer = (state=initialValue, action)=>{
     
     case "UPDATE_EVENT":
     return action.payload
+
+    case "DELETE_EVENT":
+        return initialValue
+    case "CLOSE_EVENT":
+        console.log("event is closed")
+        return initialValue
     default:
         return state
 }

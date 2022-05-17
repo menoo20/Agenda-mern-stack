@@ -20,7 +20,6 @@ const schema = yup.object({
 const UpdateEvent = ({updateEventApi, event, ShowEventsApi}) => {
     const navigate = useNavigate();
     //using form-hook to register event data
-    console.log(event);
     const { register, handleSubmit, formState: {errors}, control } = useForm({
       resolver: yupResolver(schema),
       defaultValues: {

@@ -18,12 +18,10 @@ router.get("/", async(req, res)=>{
 });
 
 router.get("/:id/show", async(req, res)=>{
-    console.log(req.params.id)
     const id =   req.params.id
     const event = await Event.findById(id);
  
     try{
-       console.log(event)
        res.status(200).json(event)
 
       
@@ -44,7 +42,6 @@ router.post("/", async(req, res)=>{
                 if(err){
                     console.log(err)
                     res.json(err)
-                    // handleProductError(err, res)
                 }else{
                     res.status(200).json(event)
                 }
@@ -71,25 +68,16 @@ router.put("/:id", async (req, res)=>{
     })
 })
 
-// router.delete("/:id", async(req, res)=>{
-//     const id = req.params.id;
-//     try{
-//         await Product.findByIdAndRemove(id)
-//         res.status(200).json("product has been deleted");
-//     }catch(err){
-//         res.json("something wrond happend")
-//     }
+router.delete("/:id/delete", async(req, res)=>{
+    const id = req.params.id;
+    try{
+        await Event.findByIdAndRemove(id)
+        res.status(200).json("Event has been deleted");
+    }catch(err){
+        res.json(err)
+    }
 
-// })
-
-// router.get("/find/:id", async(req, res)=>{
-//     const id = req.params.id;
-//     try{
-//         const product = await Product.findById(id)
-//         return res.status(201).json(product) 
-//     }catch(err){
-//         res.json("something wrond happend")
-//     }
+})
 
 
 

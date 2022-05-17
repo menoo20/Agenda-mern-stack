@@ -6,7 +6,7 @@ import * as yup from "yup";
 import { addEventApi } from "../Redux/actions";
 import { connect } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-
+import { useNavigate } from "react-router-dom";
 
 //schema to validate event inputs 
 const schema = yup.object({
@@ -18,13 +18,17 @@ const schema = yup.object({
 
 const AddEvents = ({addEventApi}) => {
 
+     const navigate = useNavigate()
+
     //using form-hook to register event data
     const { register, handleSubmit, formState: {errors}, control } = useForm({
       resolver: yupResolver(schema)
     });
    
      const onSubmit = async(values)=>{
+       console.log("values going to be stored in the api: ", values);
        addEventApi(values)
+       .then(_=> navigate("/"))
     }
 
 

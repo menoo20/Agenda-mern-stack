@@ -3,34 +3,37 @@ import React, { useState } from "react";
 import "../style/model.scss"
 import { connect } from "react-redux";
 import {Link} from "react-router-dom"
+import { deleteEventApi, ShowEventsApi, closeEvent } from "../Redux/actions";
+import { useNavigate } from "react-router-dom";
 
-
-const Popping = ({open, handleClick, event})=> {
-   
+const Popping = ({open, handleClose, event, deleteEventApi, renderStatus, rerender})=> {
+   const navigate = useNavigate();
    const {id, describe, title, start, end} = event;
 
-   const handleDelete = () => {
-   
+   const handleDelete =async () => {
+     await deleteEventApi(event.id);
+     rerender(!renderStatus)
    }
 
-   const handleUpdate = () => {
    
-  }
-    
+
    const modal = ()=>{
      return (
-      <Modal show={open} onHide={handleClick}>
+      <Modal show={open} onHide={handleClose}>
         <Modal.Header closeButton>
-            <Modal.Title>{title}</Modal.Title>
+            <Modal.Title className="text-capitalize">{title}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>{describe? describe: "No Dsecriptions Yet"}</Modal.Body>
+          <Modal.Body>
+            {describe? <p className="lead">{describe}</p>: "No Dsecriptions Yet"}
+            <div className="row justify-content-between">
+              <p className="col small text-muted text-center pb-0 mb-0">from: {start}</p>
+              <p className="col small text-muted text-center pb-0 mb-0">to: {end}</p>
+            </div>
+          </Modal.Body>
           <Modal.Footer>
-            <p>
-              <span className="small text-muted">from: {start}</span>
-              <span className="small text-muted">to: {end}</span>
-            </p>
-            <Button variant="warning" onClick={handleClick}>Close</Button>
-            <Link to={`/event/${id}/update`}><Button variant="success" onClick={handleUpdate}>Update</Button></Link>
+     
+            <Button variant="warning" onClick={handleClose}>Close</Button>
+            <Link to={`/event/${id}/update`}><Button variant="success">Update</Button></Link>
             <Button variant="danger" onClick={handleDelete}>Delete</Button>
         </Modal.Footer>
       </Modal>
@@ -47,8 +50,9 @@ const Popping = ({open, handleClick, event})=> {
 
   function mapStateToProps({event}){
      return {
-       event
+       event,
+      //  modalStatus
      }
   }
   
-  export default connect(mapStateToProps)(Popping)
+  export default connect(mapStateToProps, {deleteEventApi, closeEvent})(Popping)

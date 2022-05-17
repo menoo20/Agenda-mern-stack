@@ -1,11 +1,26 @@
 
-import { ShowEventApi, ShowEventsApi , addEventApi, updateEventApi} from "./eventsActions"
+import {ShowEventApi,
+        ShowEventsApi ,
+        addEventApi,
+        updateEventApi,
+        deleteEventApi,
+        deleteEvent,
+        } from "./eventsActions"
 
-
+import {
+    closeEvent,
+    openModal,
+    closeModal
+} from "./modal"
 
 export  {
     ShowEventApi,
     ShowEventsApi,
     addEventApi,
-    updateEventApi
+    updateEventApi,
+    deleteEventApi,
+    deleteEvent,
+    closeEvent,
+    openModal,
+    closeModal
 }

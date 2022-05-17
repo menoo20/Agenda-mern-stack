@@ -3,6 +3,7 @@ import { event } from "../Axios/event"
 import * as moment from "moment"
 
 export const showEvent = (event)=>{
+    console.log("event to be shown on the modal: ", event)
     return{
         type: "SHOW_EVENT",
         payload: event
@@ -10,6 +11,7 @@ export const showEvent = (event)=>{
 }
 
 export const showEvents = (events)=>{
+    
     return{
         type: "SHOW_EVENTS",
         payload: events
@@ -31,7 +33,6 @@ export const ShowEventApi = id => async dispatch => {
             start: moment(start).format("ddd DD MMM YY LT"),
             end: moment(end).format("ddd DD MMM YY LT")
         }
-        console.log("convertedEvent is:" , convertedEvent)
         await dispatch(showEvent(convertedEvent))
     }catch(err){
          const error =await err.data.message;
@@ -40,7 +41,7 @@ export const ShowEventApi = id => async dispatch => {
 }
 
 export const ShowEventsApi = () => async dispatch => {
-     
+     console.log("started fetching the api")
     //i won't get the event from redux store as it is safer to
     //keep updated with db.
     const result = await event.get("/");
@@ -63,22 +64,24 @@ export const ShowEventsApi = () => async dispatch => {
 }
 
 
-const deleteEvent = (id)=>{
+export const deleteEvent = (id)=>{
    return {
        type: "DELETE_EVENT",
+       payload: id
    }
 }
 
 export const deleteEventApi = (id) =>  async dispatch=> {
-    const result = await event.delete("/delete", {id})
+    const result = await event.delete(`/${id}/delete`)
 
     try {
         const deleted = await result.data;
-        await dispatch(deleteEvent(deleted))
+        await dispatch(deleteEvent(id))
+        return {deleted}
     }catch(err){
         const message = await result.data.message;
         console.log(message)
-        return message
+        return {message}
     }
 }
 
@@ -100,6 +103,7 @@ export const addEventApi = (values) => async dispatch =>{
          describe: values.describe
        })
        try{
+           console.log("event from the api going to the reducer: ", result.data)
          await dispatch(addEvent(result.data))
 
         }catch(err){
@@ -125,11 +129,9 @@ export const updateEventApi = (values, id) => async dispatch =>{
          describe: values.describe
        })
        try{
-           console.log(result.data)
          await dispatch(updateEvent(result.data))
 
         }catch(err){
          console.log(err.data);
-         
        }
 }

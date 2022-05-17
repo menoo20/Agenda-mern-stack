@@ -13,10 +13,16 @@ const EventsReducer = (state=initialValue, action)=>{
     ]
     case "UPDATE_EVENT":
     const renderedEvents = state.filter(event => event.id !== action.payload._id);
-    
+     
     return [
         ...renderedEvents,
         action.payload
+    ]
+    
+    case "DELETE_EVENT":
+        const filteredEvents = state.filter(event => event.id !== action.payload.id);
+    return [
+        ...filteredEvents
     ]
     default:
         return state
