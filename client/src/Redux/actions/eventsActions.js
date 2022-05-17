@@ -1,7 +1,8 @@
 
 import { event } from "../Axios/event"
 import * as moment from "moment"
-
+import { addError, removeError } from "./errorsAction"
+import { useNavigate } from "react-router-dom"
 export const showEvent = (event)=>{
     console.log("event to be shown on the modal: ", event)
     return{
@@ -102,14 +103,38 @@ export const addEventApi = (values) => async dispatch =>{
          end: values.end,
          describe: values.describe
        })
-       try{
-           console.log("event from the api going to the reducer: ", result.data)
-         await dispatch(addEvent(result.data))
-
-        }catch(err){
-         console.log(err.data);
-         
-       }
+       .then(res=>{
+        
+        if(res && res.data){
+            console.log("event from the api going to the reducer: ", res.data)
+            dispatch(addEvent(res.data)) 
+            dispatch(removeError())
+            
+            return;
+        }
+       })
+       .catch(res=>{
+        console.log("catch response, ", res)
+        if(res.response.data){
+            
+            console.log(res.response.data)
+            dispatch(addError(res.response.data));
+        }
+    })
+       
+    //    try{
+    //     if(await result.response.data){
+    //         console.log("yes")
+    //     }else{
+          
+    //     }
+  
+    //    }
+    //    catch(err){
+        //    console.log(err.status)
+        //  if(result.response.data){
+        // return {error : result.response.data}
+    // }
 }
 
 

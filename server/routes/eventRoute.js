@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Event = require("../models/Event");
-
+const handleError = require("../utils/eventErrors")
 
 
 router.get("/", async(req, res)=>{
@@ -13,7 +13,7 @@ router.get("/", async(req, res)=>{
 
       
     }catch(err){
-        res.json("something wrond happend")
+        handleError(err, res)
     }
 });
 
@@ -26,28 +26,26 @@ router.get("/:id/show", async(req, res)=>{
 
       
     }catch(err){
-        res.json("couldn't fetch event")
+        handleError(err, res)
     }
 });
 
 
 
 router.post("/", async(req, res)=>{
-        console.log(req.body)
    
         const newEvent = await new Event(req.body)
      
         try{
            await newEvent.save((err, event)=>{
                 if(err){
-                    console.log(err)
-                    res.json(err)
+                    handleError(err, res)
                 }else{
                     res.status(200).json(event)
                 }
             })
         }catch(err){
-            handleProductError(err, res)
+            handleError(err, res)
         }
     }
 )
@@ -63,7 +61,7 @@ router.put("/:id", async (req, res)=>{
         if(docs){
             res.status(200).json(docs)
         }else{
-            res.status(500).json("something went wrong")
+            handleError(err, res)
         }
     })
 })
@@ -74,7 +72,7 @@ router.delete("/:id/delete", async(req, res)=>{
         await Event.findByIdAndRemove(id)
         res.status(200).json("Event has been deleted");
     }catch(err){
-        res.json(err)
+        handleError(err, res)
     }
 
 })

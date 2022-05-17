@@ -5,6 +5,7 @@ import {ShowEventApi,
         updateEventApi,
         deleteEventApi,
         deleteEvent,
+        
         } from "./eventsActions"
 
 import {
@@ -12,6 +13,11 @@ import {
     openModal,
     closeModal
 } from "./modal"
+
+import {
+    addError,
+    removeError
+} from "./errorsAction"
 
 export  {
     ShowEventApi,
@@ -22,5 +28,7 @@ export  {
     deleteEvent,
     closeEvent,
     openModal,
-    closeModal
+    closeModal, 
+    addError,
+    removeError
 }
