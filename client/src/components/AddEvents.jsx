@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 //schema to validate event inputs 
 const schema = yup.object({
   title: yup.string().required("Can't Be Empty"),
-  start: yup.date().required("Please specify the time to start")
+  start: yup.date().required("Please specify the time to start"),
 }).required();
 
 

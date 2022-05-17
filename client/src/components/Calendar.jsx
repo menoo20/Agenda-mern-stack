@@ -30,6 +30,11 @@ const MyCalendar = ({events, ShowEventApi, closeEvent, ShowEventsApi}) => {
     const [open, setOpen] = useState(false);
     const [renderStatus, rerender] = useState(false);
 
+    useEffect(()=>{
+      ShowEventsApi()
+      console.log("i renderd because of refresh or start");
+    },[])
+
 
     useEffect(()=>{
       ShowEventsApi()
@@ -50,7 +55,7 @@ const MyCalendar = ({events, ShowEventApi, closeEvent, ShowEventsApi}) => {
       setOpen(false);
       setTimeout(()=>closeEvent(),300) ;
     }
-
+    
     return (
     <div>
         <Popping open={open}

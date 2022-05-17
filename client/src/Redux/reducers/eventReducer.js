@@ -14,8 +14,8 @@ const EventReducer = (state=initialValue, action)=>{
     console.log("event as appearing in the reduce: ", action.payload)
     return action.payload
     
-    case "UPDATE_EVENT":
-    return action.payload
+    // case "UPDATE_EVENT":
+    // return action.payload
 
     case "DELETE_EVENT":
         return initialValue

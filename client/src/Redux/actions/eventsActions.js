@@ -129,7 +129,7 @@ export const updateEventApi = (values, id) => async dispatch =>{
          describe: values.describe
        })
        try{
-         await dispatch(updateEvent(result.data))
+        //  await dispatch(updateEvent(result.data))
 
         }catch(err){
          console.log(err.data);

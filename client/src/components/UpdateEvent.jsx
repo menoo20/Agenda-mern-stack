@@ -12,7 +12,8 @@ import {useNavigate} from "react-router-dom"
 //schema to validate event inputs 
 const schema = yup.object({
   title: yup.string().required("Can't Be Empty"),
-  start: yup.date().required("Please specify the time to start")
+  start: yup.date().required("Please specify the time to start"),
+  end: yup.date("must be a valid date").required("on update you must specify an end date"),
 }).required();
 
 
@@ -25,15 +26,14 @@ const UpdateEvent = ({updateEventApi, event, ShowEventsApi}) => {
       defaultValues: {
         title: event.title,
         start: new Date(event.start) ,
-        end: new Date(event.end),
-        describe: event.describe
+        end: event.end? new Date(event.end) :"",
+        describe: event.describe? event.describe : "No description was provided"
       }
     });
    
      const onSubmit = async(values)=>{
-      updateEventApi(values, event.id);
-      ShowEventsApi();
-      navigate("/")
+      updateEventApi(values, event.id)
+      .then(_=> navigate("/"))
     }
 
 
@@ -91,6 +91,8 @@ const UpdateEvent = ({updateEventApi, event, ShowEventsApi}) => {
       />
     )}
   />
+  {/* error handling */}
+  <p className={`error text-warning position-absolute ${errors.end?"active":""}`}>{errors.end?<i className=" bi bi-info-circle me-2"></i>:""}{errors.end?.message}</p>
     </div>
     <div className="mb-4">
       <label htmlFor="describe" className="form-label">
