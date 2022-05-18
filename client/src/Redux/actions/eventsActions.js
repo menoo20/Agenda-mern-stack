@@ -122,19 +122,6 @@ export const addEventApi = (values) => async dispatch =>{
         }
     })
        
-    //    try{
-    //     if(await result.response.data){
-    //         console.log("yes")
-    //     }else{
-          
-    //     }
-  
-    //    }
-    //    catch(err){
-        //    console.log(err.status)
-        //  if(result.response.data){
-        // return {error : result.response.data}
-    // }
 }
 
 
@@ -147,16 +134,34 @@ const updateEvent = (updatedEvent)=>{
 
 
 export const updateEventApi = (values, id) => async dispatch =>{
-    const result = await event.put(`/${id}`, {
-         title: values.title,
-         start: values.start,
-         end: values.end,
-         describe: values.describe
-       })
-       try{
-        //  await dispatch(updateEvent(result.data))
+    try{
+        const result = await event.put(`/${id}/update`, {
+            title: values.title,
+            start: values.start,
+            end: values.end,
+            describe: values.describe
+          })
+         console.log(result)
+          const response = result.data;
+          dispatch(removeError())
+          return "response was successful";
+    }catch(err){
+        console.log(err)
+        dispatch(addError(err.response.data));
+    }
 
-        }catch(err){
-         console.log(err.data);
-       }
+    //    .then(res=>{
+    //        console.log(res)
+    //     if(res && res.data){
+            
+    //         console.log(res.data)
+    //         
+    //         return;
+    //     }else{
+    //         if(res.response.data){
+    //             console.log(res.response.data)
+    //         }
+    //     }
+    //    })
+ 
 }

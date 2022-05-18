@@ -3,6 +3,7 @@ const handleEventErrors = (error, res )=> {
     //Errors Schema
     const SchemaErrors = {title: '', start: '', end: ''}
 
+    
     // schema validation errors
     if(error.errors){
         Object.values(error.errors).forEach(error=>{

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import DatePicker from "react-datepicker";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -18,8 +18,23 @@ const schema = yup.object({
 
 
 
-const UpdateEvent = ({updateEventApi, event, ShowEventsApi}) => {
+const UpdateEvent = ({updateEventApi, event, error}) => {
     const navigate = useNavigate();
+    const [rerender, setRerender] = useState(false);
+    const [dbError, setError] = useState(false)
+    const [firstRender, setFirstRender] = useState(true)
+
+
+    useEffect( ()=>{
+      console.log(error);
+      if(error && !firstRender){
+        setError(error)
+        
+      }
+        if(!error.start && !error.end && dbError !== false){
+          setTimeout(navigate("/")) 
+        }
+     }, [rerender])
     //using form-hook to register event data
     const { register, handleSubmit, formState: {errors}, control } = useForm({
       resolver: yupResolver(schema),
@@ -32,8 +47,9 @@ const UpdateEvent = ({updateEventApi, event, ShowEventsApi}) => {
     });
    
      const onSubmit = async(values)=>{
+      setFirstRender(false)
       updateEventApi(values, event.id)
-      .then(_=> navigate("/"))
+      .then(_=>  setRerender(!rerender))
     }
 
 
@@ -69,6 +85,7 @@ const UpdateEvent = ({updateEventApi, event, ShowEventsApi}) => {
     />
     {/* error handling */}
     <p className={`error text-warning position-absolute ${errors.start?"active":""}`}>{errors.start?<i className=" bi bi-info-circle me-2"></i>:""}{errors.start?.message}</p>
+    <p className={`error text-warning position-absolute ${dbError.start?"":"d-none"}`}>{dbError.start?<i className=" bi bi-info-circle me-2"></i>:""}{dbError.start}</p>
     </div>
     <div className="mb-4" style={{zIndex: "100"}}>
       <label htmlFor="end" className="form-label">End Date</label>
@@ -93,6 +110,8 @@ const UpdateEvent = ({updateEventApi, event, ShowEventsApi}) => {
   />
   {/* error handling */}
   <p className={`error text-warning position-absolute ${errors.end?"active":""}`}>{errors.end?<i className=" bi bi-info-circle me-2"></i>:""}{errors.end?.message}</p>
+  <p className={`error text-warning position-absolute ${dbError.end?"":"d-none"}`}>{dbError.end?<i className=" bi bi-info-circle me-2"></i>:""}{dbError.end}</p>
+
     </div>
     <div className="mb-4">
       <label htmlFor="describe" className="form-label">
@@ -106,9 +125,10 @@ const UpdateEvent = ({updateEventApi, event, ShowEventsApi}) => {
 }
 
 
-function mapStateToProps({event}){
+function mapStateToProps({event, error}){
   return{
-    event
+    event,
+    error
   }
 }
 
