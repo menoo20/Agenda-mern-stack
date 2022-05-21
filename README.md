@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=1080px src="https://res.cloudinary.com/e-cart2022/image/upload/v1653128793/private/3_anc7jj.png" alt="Project logo"></a>
+ <img src="https://res.cloudinary.com/e-cart2022/image/upload/v1653128793/private/3_anc7jj.png" alt="Project logo"></a>
 </p>
 
 <h3 align="center">Project Title</h3>
