@@ -49,7 +49,14 @@ const UpdateEvent = ({updateEventApi, event, error}) => {
      const onSubmit = async(values)=>{
       setFirstRender(false)
       updateEventApi(values, event.id)
-      .then(_=>  setRerender(!rerender))
+      .then(res=> {
+        console.log(res);
+        setRerender(!rerender);
+        if(res === "response was successful"){
+          navigate("/")
+        }
+      })
+      
     }
 
 
@@ -74,7 +81,6 @@ const UpdateEvent = ({updateEventApi, event, error}) => {
           placeholderText="Select date"
           onChange={(date) => field.onChange(date)}
           selected={field.value}
-          // value={event.start}
           showTimeSelect
           timeFormat="HH:mm"
           dateFormat="MMMM d, yyyy h:mm aa"
@@ -98,7 +104,6 @@ const UpdateEvent = ({updateEventApi, event, error}) => {
         placeholderText="Select end date"
         onChange={(date) => field.onChange(date)}
         selected={field.value}
-        // value={event.end}
         timeFormat="HH:mm"
         dateFormat="MMMM d, yyyy h:mm aa"
         showTimeSelect

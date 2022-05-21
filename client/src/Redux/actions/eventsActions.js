@@ -110,7 +110,7 @@ export const addEventApi = (values) => async dispatch =>{
             dispatch(addEvent(res.data)) 
             dispatch(removeError())
             
-            return;
+            return  "success";
         }
        })
        .catch(res=>{

@@ -67,7 +67,7 @@ router.put("/:id/update", async (req, res)=>{
         })
     }   
         if(!event){
-            res.status(404).json({error: "book is not found"})
+            res.status(404).json({error: "event is not found"})
         }
      }catch (err){
        console.log(err)
